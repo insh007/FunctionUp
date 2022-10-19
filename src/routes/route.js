@@ -3,6 +3,38 @@ const myHelper = require('../util/helper')
 const underscore = require('underscore')
 
 const router = express.Router();
+const app = express.Router();
+
+app.get('/sol1', function (req, res) {
+    let arr = [1, 2, 3, 5, 6, 7]
+    let n = arr.length + 1
+    sumOfNNumbers = (n * (n + 1)) / 2
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+        sum = sum + arr[i]
+    }
+    let missingNumber = sumOfNNumbers - sum
+    res.send({missingNumber})
+
+    // console.log("The missing number is:", missingNumber)
+    // res.send( missingNumber) // This is wrong
+    // res.send( arr) // This is right 
+})
+
+app.get('/sol2', function (req, res) {
+    let arr = [33, 34, 35, 37, 38]
+    let n = arr.length + 1
+    let first = arr[0]
+    let last = arr[arr.length - 1]
+    let sumOfCNumbers = (n * (first + last)) / 2
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+        sum = sum + arr[i]
+    }
+    let missingNumber = sumOfCNumbers - sum
+    res.send({data : missingNumber})
+})
+
 
 router.get('/test-me', function (req, res) {
     myHelper.printDate()
@@ -13,19 +45,30 @@ router.get('/test-me', function (req, res) {
     res.send('My first ever api!')
 });
 
-router.get("/movies/:indexNumber", function(req, res){
-    const movies = ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"]
-    console.log(req.params.indexNumber)
-    let movieIndex = req.params.indexNumber
-    //check index value. less than 0 or greater than array (length - 1) are not valid
-    if(movieIndex<0 || movieIndex>=movies.length) {
-        //if the index is invalid send an error message
-        return res.send('The index value is not correct, Please check the it')
-    }
+// router.get("/movies/:indexNumber", function(req, res){
+//     const movies = ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"]
+//     console.log(req.params.indexNumber)
+//     let movieIndex = req.params.indexNumber
+//     //check index value. less than 0 or greater than array (length - 1) are not valid
+//     if(movieIndex<0 || movieIndex>=movies.length) {
+//         //if the index is invalid send an error message
+//         return res.send('The index value is not correct, Please check the it')
+//     }
 
-    //if the index was valid send the movie at that index in response
-    let requiredMovie = movies[movieIndex]
-    res.send(requiredMovie)
+//     //if the index was valid send the movie at that index in response
+//     let requiredMovie = movies[movieIndex]
+//     res.send(requiredMovie)
+// })
+
+router.get('/movies/:indexNumber', function(req, res){
+    let movies3 = ['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+    let myParams = req.params
+    if(myParams.indexNumber < movies3.length){
+        console.log(movies3[myParams.indexNumber])
+        res.send("check the console")
+    }else{
+        res.send("Please enter the correct index less than " + movies3.length )
+    }
 })
 
 router.get("/shoes", function(req, res){
@@ -45,9 +88,9 @@ router.get('/candidates', function(req, res){
     let gender = req.query.gender
     let state = req.query.state
     let district = req.query.district
-    console.log('State is '+state)
-    console.log('Gender is '+gender)
-    console.log('District is '+district)
+    console.log('State is '+ state)
+    console.log('Gender is '+ gender)
+    console.log('District is '+ district)
     let candidates = ['Akash','Suman']
     res.send(candidates)
 })
@@ -110,3 +153,4 @@ router.get("/films/:filmId", function(req, res){
 
 module.exports = router;
 // adding this comment for no reason
+module.exports = app
